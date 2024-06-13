@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosConifg";
 
 export const login = async (username, password) => {
   try {
