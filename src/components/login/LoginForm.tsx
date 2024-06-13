@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,8 +13,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { login } from "@/api/AuthenticationService";
+import { useAppContext } from "@/context";
 
 const LoginForm = () => {
+  const { state, setState } = useAppContext();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,12 +26,19 @@ const LoginForm = () => {
     try {
       const response = await login(username, password);
       if (response) {
-        window.location.href = "/";
+        setState({ userId: response });
       }
     } catch (error) {
       console.error("Login failed:", error);
     }
   };
+
+  useEffect(() => {
+    if (state.userId) {
+      console.log("User ID updated:", state.userId);
+      window.location.href = "/";
+    }
+  }, [state.userId]);
 
   return (
     <Card className="mx-auto max-w-sm">
