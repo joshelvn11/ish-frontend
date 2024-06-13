@@ -8,7 +8,9 @@ export const login = async (username, password) => {
       withCredentials: true,
     });
 
-    return true;
+    const userId = response.data.user_id;
+
+    return userId;
   } catch (error) {
     console.error(
       "Failed to login:",
